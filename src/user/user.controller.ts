@@ -14,6 +14,10 @@ export class UserController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.userService.uploadFile(file);
+    this.userService.uploadFile(file);
+    return {
+      status: 200,
+      message: 'File Uploaded Successfully',
+    };
   }
 }

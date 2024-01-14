@@ -25,8 +25,8 @@ export async function uploadToS3(file, bucket, name, mimetype) {
   };
 
   try {
-    let s3Response = await s3.upload(params).promise();
-    return s3Response;
+    // let s3Response = await s3.upload(params).promise();
+    // return s3Response;
   } catch (e) {
     console.log(e);
   }

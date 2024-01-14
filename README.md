@@ -1,73 +1,53 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Learn step-by-step how to set up Nest Queue with Bull Queue and Redis, and gain insights into the seamless functioning of this powerful combination.
+For each step I've created a separate branch.
 
-## Installation
+## Clone Repo
 
 ```bash
-$ npm install
+$ git clone git@github.com:Lakshya-Saini/Nest-Bull-Queue.git
 ```
 
 ## Running the app
 
 ```bash
-# development
-$ npm run start
+# create docker image
+$ docker build -t nest-app .
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# run image in container
+$ docker run -p 3000:3000 -d nest-app
 ```
 
-## Test
+## What is NestJS Queue ?
+```
+Nest provides a package @nestjs/bull which a wrapper on top of bull.
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+Bull is a popular, high performance, node.js based queue system implementation.
+Now Bull is built on top of Redis and uses it to persist job data.
+So, in order to use bull, we need to have redis installed on our system.
 ```
 
-## Support
+## How Bull Queue Works ?
+```
+Bull Queue works on the producer-consumer pattern. 
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Producer adds job to the queue with specified payload and optional config.
+The job is serialized and stored in Redis database, making it available for processing.
 
-## Stay in touch
+Jobs are processed by worker processes.
+These workers can run on the same server or be distributed across multiple servers.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+When a worker starts, it connects to the Redis server and begins listening for jobs on the specified queue.
 
-## License
+When a job becomes available, the worker dequeues it, processes the job's payload, and executes the specified processing logic.
+```
 
-Nest is [MIT licensed](LICENSE).
+## Steps
+```
+1. Register Bull config and add redis connection.
+2. Register Queue
+3. Producer - Add job to the queue.
+4. Consumer - Create worker processes to process jobs.
+5. Add event listeners
+```

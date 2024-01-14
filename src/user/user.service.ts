@@ -7,7 +7,6 @@ export class UserService {
   constructor(@InjectQueue('fileUpload') private readonly fileUpload: Queue) {}
 
   async uploadFile(file) {
-    console.log({ file });
     const { originalname } = file;
 
     await this.fileUpload.add(
@@ -20,5 +19,7 @@ export class UserService {
       },
       { delay: 3000, lifo: true },
     );
+
+    console.log('job added to queue');
   }
 }

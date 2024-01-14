@@ -13,6 +13,12 @@ import { BullModule } from '@nestjs/bull';
         port: 6379,
       },
     }),
+    BullModule.forRoot('alternate-config', {
+      redis: {
+        host: '172.17.0.3',
+        port: 6379,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
